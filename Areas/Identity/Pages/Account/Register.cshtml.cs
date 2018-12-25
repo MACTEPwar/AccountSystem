@@ -16,14 +16,14 @@ namespace AccountSystem.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -40,10 +40,15 @@ namespace AccountSystem.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            //[Required]
-            //[StringLength(100, ErrorMessage = "Введенный логин не корректный, пожалуйста повторите попытку", MinimumLength = 4)]
-            //[Display(Name = "Login")]
-            //public string Login { get; set; }
+            [Required]
+            [StringLength(100, ErrorMessage = "Введенное имя пользователя не корректно, пожалуйста повторите поытку", MinimumLength = 4)]
+            [Display(Name = "Username")]
+            public string _username { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "Введенный логин не корректный, пожалуйста повторите попытку", MinimumLength = 4)]
+            [Display(Name = "Login")]
+            public string _login { get; set; }
 
             [Required]
             [EmailAddress]
@@ -58,8 +63,19 @@ namespace AccountSystem.Areas.Identity.Pages.Account
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "Введенный адрес не корректный, пожалуйста повторите попытку", MinimumLength = 4)]
+            [Display(Name = "Address")]
+            public string _address { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "Выберите пол", MinimumLength = 4)]
+            [Display(Name = "Sex")]
+            public string _sex { get; set; }
+
         }
 
         public void OnGet(string returnUrl = null)
@@ -72,11 +88,11 @@ namespace AccountSystem.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new User { _username = Input._username, Email = Input.Email,  _login = Input._login, UserName = Input._login, _address = Input._address, _sex = Input._sex};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Новый аккаун с паролем создан.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
@@ -85,12 +101,12 @@ namespace AccountSystem.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await EmailService.SendEmailAsync(Input.Email, "Confirm your email",
-                        //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                        $"Please confirm your account by <a href='{callbackUrl}'>clicking here</a>.");
+                    await EmailService.SendEmailAsync(Input.Email, "Подтверждение пароля",
+                        $"Для завершения регистрации перейдите по ссылке: <a href='{callbackUrl}'></a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
+                    return Redirect("~/Home/");
                 }
                 foreach (var error in result.Errors)
                 {

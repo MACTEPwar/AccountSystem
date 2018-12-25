@@ -8,9 +8,15 @@ namespace AccountSystem.Models
 {
     public class User: IdentityUser
     {
-        public User(): base()
-        {
 
-        }
+        public string _login { get; set; }
+        public string _username { get; set; }
+        public string _address { get; set; }
+        public string _sex { get; set; }
+
+        //public User(): base()
+        //{
+            
+        //}
     }
 }

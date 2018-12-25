@@ -13,6 +13,16 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Input._login"></label>
+                <input asp-for="Input._login" class="form-control" />
+                <span asp-validation-for="Input._login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input._username"></label>
+                <input asp-for="Input._username" class="form-control" />
+                <span asp-validation-for="Input._username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -26,6 +36,16 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input._address"></label>
+                <input asp-for="Input._address" class="form-control" />
+                <span asp-validation-for="Input._address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input._sex"></label>
+                <input asp-for="Input._sex" class="form-control" />
+                <span asp-validation-for="Input._sex" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-default">Register</button>
         </form>
