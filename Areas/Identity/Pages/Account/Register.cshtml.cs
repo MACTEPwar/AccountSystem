@@ -42,12 +42,12 @@ namespace AccountSystem.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(100, ErrorMessage = "Введенное имя пользователя не корректно, пожалуйста повторите поытку", MinimumLength = 4)]
-            [Display(Name = "Username")]
+            [Display(Name = "ФИО")]
             public string _username { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "Введенный логин не корректный, пожалуйста повторите попытку", MinimumLength = 4)]
-            [Display(Name = "Login")]
+            [Display(Name = "Логин")]
             public string _login { get; set; }
 
             [Required]
@@ -56,9 +56,9 @@ namespace AccountSystem.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Пароль должен быть от {2} до {1} символов.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Пароль")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
@@ -68,12 +68,12 @@ namespace AccountSystem.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(100, ErrorMessage = "Введенный адрес не корректный, пожалуйста повторите попытку", MinimumLength = 4)]
-            [Display(Name = "Address")]
+            [Display(Name = "Адрес")]
             public string _address { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "Выберите пол", MinimumLength = 4)]
-            [Display(Name = "Sex")]
+            [StringLength(100, ErrorMessage = "Выберите пол", MinimumLength = 1)]
+            [Display(Name = "Пол")]
             public string _sex { get; set; }
 
         }
@@ -88,7 +88,7 @@ namespace AccountSystem.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User { _username = Input._username, Email = Input.Email,  _login = Input._login, UserName = Input._login, _address = Input._address, _sex = Input._sex};
+                var user = new User { _login = Input._login, _username = Input._username, Email = Input.Email, UserName = Input._login, _address = Input._address, _sex = Input._sex };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -102,10 +102,9 @@ namespace AccountSystem.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await EmailService.SendEmailAsync(Input.Email, "Подтверждение пароля",
-                        $"Для завершения регистрации перейдите по ссылке: <a href='{callbackUrl}'></a>.");
+                        $"Для завершения регистрации перейдите по <a href='{callbackUrl}'>ссылке</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    //return LocalRedirect(returnUrl);
                     return Redirect("~/Home/");
                 }
                 foreach (var error in result.Errors)

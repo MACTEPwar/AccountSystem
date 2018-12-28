@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AccountSystem.Migrations
 {
-    public partial class init : Migration
+    public partial class ssd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

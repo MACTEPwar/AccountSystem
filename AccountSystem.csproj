@@ -6,15 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20181225220118_first.cs" />
-    <Compile Remove="Migrations\20181225220118_first.Designer.cs" />
-    <Compile Remove="Migrations\20181225220144_first.cs" />
-    <Compile Remove="Migrations\20181225220144_first.Designer.cs" />
-    <Compile Remove="Migrations\20181225220238_first.cs" />
-    <Compile Remove="Migrations\20181225220238_first.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">

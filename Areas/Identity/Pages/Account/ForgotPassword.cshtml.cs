@@ -29,8 +29,8 @@ namespace AccountSystem.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Это поле не может быть пустым.")]
+            [EmailAddress (ErrorMessage = "Вы ввели некорректный e-mail адрес. Пожалуйста повторите попытку. Пример: example@gmail.com")]
             public string Email { get; set; }
         }
 
@@ -54,10 +54,10 @@ namespace AccountSystem.Areas.Identity.Pages.Account
                     values: new { code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
+                await EmailService.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Сброс пароля",
+                    $"Для сброса пароля перейдите по <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>ссылке</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

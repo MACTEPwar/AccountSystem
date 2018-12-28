@@ -37,14 +37,16 @@ namespace AccountSystem.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "{0} не может быть пустым")]
+            [Display(Name = "Логин")]
             public string Email { get; set; }
 
-            [Required]
-            [DataType(DataType.Password)]
+            [Required(ErrorMessage = "{0} не может быть пустым")]
+            [DataType(DataType.Password,ErrorMessage = "Неорректный пароль, пожалуйста повторите попытку.")]
+            [Display(Name = "Пароль")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Запомнить меня?")]
             public bool RememberMe { get; set; }
         }
 
@@ -90,7 +92,7 @@ namespace AccountSystem.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");
                     return Page();
                 }
             }

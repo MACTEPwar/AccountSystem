@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181225215534_init")]
-    partial class init
+    [Migration("20181228023404_ssd")]
+    partial class ssd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
